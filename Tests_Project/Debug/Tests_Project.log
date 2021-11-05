@@ -1,0 +1,3 @@
+﻿  Tests_Project.cpp
+D:\VisualStudio\My Projects\AaSD_1\UnorderedList.h(33): warning C4715: 'UnorderedList::getNode': not all control paths return a value
+  Tests_Project.vcxproj -> D:\VisualStudio\My Projects\AaSD_1\Debug\Tests_Project.dll
