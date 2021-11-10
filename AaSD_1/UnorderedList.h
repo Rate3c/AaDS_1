@@ -101,7 +101,7 @@ void UnorderedList::push_front(int data) {
 
 //3. delete last element
 void UnorderedList::pop_back() {
-    try {
+    if (!isEmpty()) {
         if (get_size() == 1) {
             delete head;
             head = tail = NULL;
@@ -116,14 +116,14 @@ void UnorderedList::pop_back() {
         }
     }
 
-    catch (const std::exception& exception) {
-        throw exception;
+    else {
+        throw std::out_of_range("List is empty");
     }
 }
 
 // 4. delete front element
 void UnorderedList::pop_front() {
-    try {
+    if (!isEmpty()) {
         if (get_size() == 1) {
             delete head;
             head = tail = NULL;
@@ -138,14 +138,14 @@ void UnorderedList::pop_front() {
             size--;
         }
     }
-    catch (const std::exception& exception) {
-        throw exception;
+    else {
+        throw std::out_of_range("List is empty");
     }
 }
 
 //5. insert element
 void UnorderedList::insert(int index, int data) {
-    try {
+    if (index < get_size() && index >= 0) {
         if (index == 0) push_front(data);
         else if (index == get_size()) push_back(data);
         else {
@@ -161,25 +161,25 @@ void UnorderedList::insert(int index, int data) {
             size++;
         }
     }
-    catch (const std::exception& exception) {
-        throw exception;
+    else {
+        throw std::invalid_argument("Index is out of range");
     }
 }
 
 // 6. get data of element by index
 int UnorderedList::at(int index) {
-    try {
+    if (index < get_size() && index >= 0) {
         return getNode(index)->data;
     }
 
-    catch (const std::exception& exception) {
-        throw exception;
+    else {
+        throw std::invalid_argument("Index is out of range");
     }
 }
 
 //7. remove element by index
 void UnorderedList::remove(int index) {
-    try {
+    if (index < get_size() && index >= 0) {
         Node* newNode = getNode(index);
         if (get_size() == 1) {
             delete newNode;
@@ -203,14 +203,16 @@ void UnorderedList::remove(int index) {
         }
         size--;
     }
-    catch (const std::exception& exception) {
-        throw exception;
+    else {
+        throw std::invalid_argument("Index is out of range");
     }
 }
 
 //8. get list size
 int UnorderedList::get_size() {
-    return size;
+    if (size >= 0)
+        return size;
+    else throw std::logic_error("List is empty");
 }
 
 //9. clear list
@@ -226,11 +228,11 @@ void UnorderedList::clear() {
 
 //10. Replacing an element by index
 void UnorderedList::set(int index, int data) {
-    try {
+    if (index < get_size() && index >= 0) {
         getNode(index)->data = data;
     }
-    catch (const std::exception& exception) {
-        throw exception;
+    else {
+        throw std::invalid_argument("Index is out of range");
     }
 }
 
