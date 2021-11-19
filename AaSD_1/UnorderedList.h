@@ -108,7 +108,7 @@ void UnorderedList::pop_back() {
             head = tail = NULL;
             size--;
         }
-        if (get_size() > 1) {
+        else {
             Node* newNode = tail->prev;
             delete tail;
             tail = newNode;
@@ -131,7 +131,7 @@ void UnorderedList::pop_front() {
             size--;
         }
 
-        else if (get_size() > 1) {
+        else {
             Node* newNode = head->next;
             delete head;
             head = newNode;
