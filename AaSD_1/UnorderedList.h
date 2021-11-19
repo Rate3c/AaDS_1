@@ -50,6 +50,7 @@ public:
     void clear();
     void set(int index, int data);
     bool isEmpty();
+    bool contains(UnorderedList& list);
 
     friend std::ostream& operator<< (std::ostream& out, const UnorderedList& list);
 };
@@ -253,3 +254,44 @@ std::ostream& operator<< (std::ostream& out, const UnorderedList& list) {
 
 }
 
+//17. Checking for the contents of another list in the list
+bool UnorderedList::contains(UnorderedList& sublist)
+{
+    if (sublist.isEmpty())
+        return true;
+
+    Node* curNode = head;
+    int sizeDelta = this->get_size() - sublist.get_size();
+    int counter = 0;
+
+    while (curNode != nullptr)
+    {
+        if (counter > sizeDelta)
+            return false;
+
+        if (curNode->data==sublist.head->data)
+        {
+            Node* localNode = curNode->next;
+            Node* sublistNode = sublist.head->next;
+            bool foundSublist = true;
+
+            while (sublistNode != nullptr)
+            {
+                if (!sublistNode->data==localNode->data)
+                {
+                    foundSublist = false;
+                    break;
+                }
+                sublistNode = sublistNode->next;
+                localNode = localNode->next;
+            }
+
+            if (foundSublist)
+                return true;
+        }
+        curNode = curNode->next;
+        counter++;
+    }
+
+    return false;
+}

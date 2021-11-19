@@ -2,9 +2,6 @@
 
 #pragma once
 
-#include <vector>
-#include <iostream>
-#include <string>
 #include "UnorderedList.h"
 
 using namespace std;
@@ -43,10 +40,21 @@ int main() {
 	cout << "10. clear list: " << list << endl;
 
 	UnorderedList list_2;
+	list_2.push_back(1);
 	list_2.push_back(3);
 	list_2.push_back(4);
 	list_2.push_back(5);
-	cout << "The 2nd list: " << list_2 << endl;
+	list_2.push_back(9);
+	cout << "New 2nd list: " << list_2 << endl;
+
+	UnorderedList list_3;
+	list_3.push_back(1);
+	list_3.push_back(3);
+	list_3.push_back(5);
+	list_3.push_back(5);
+	list_3.push_back(5);
+	cout << "New 3rd list: " << list_3 << endl;
+	cout << "Contains or not list_2 sublist list_3: " << list_2.contains(list_3) << endl;
 
 	return 0;
 }
