@@ -10,14 +10,16 @@ using namespace std;
 int main() {
 	UnorderedList list;
 
-	list.push_back(2);
 	list.push_back(3);
+	list.push_back(24);
+	list.push_back(254);
+	list.push_back(7);
 	cout << "1. add to the end of the list: " << list << endl;
 
-	list.push_front(1);
+	list.push_front(16);
 	cout << "2. add to the top of the list: " << list << endl;
 
-	list.insert(2, 3554);
+	list.insert(1, 354);
 	cout << "3. insert to list: " << list << endl;
 
 	list.remove(2);
@@ -54,6 +56,10 @@ int main() {
 	list_3.push_back(9);
 	cout << "New 3rd list: " << list_3 << endl;
 	cout << "Contains or not list_2 sublist list_3: " << list_2.contains(list_3) << endl;
+	list_3.push_front(12);
+	cout << "New 3rd list: " << list_3 << endl;
+	cout << "Contains or not list_2 sublist list_3: " << list_2.contains(list_3) << endl;
+
 
 	return 0;
 }

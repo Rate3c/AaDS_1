@@ -10,9 +10,11 @@ private:
     class Node {
     public:
         int data;
-        Node* prev;
         Node* next;
-        Node(int data, Node* prev = NULL, Node* next = NULL) : data(data), prev(prev), next(next) {};
+        Node(int data, Node* next = nullptr) {
+            this->data = data;
+            this->next = next;
+        }
     };
 
     Node* head; // pointer to the first newNode of list
@@ -62,7 +64,7 @@ UnorderedList::UnorderedList(int data) {
     size = 1;
 }
 UnorderedList::UnorderedList() {
-    head = tail = NULL;
+    head = tail = nullptr;
     size = 0;
 }
 // Destructor
@@ -72,29 +74,32 @@ UnorderedList::~UnorderedList() {
 
 //1. add element to the end
 void UnorderedList::push_back(int data) {
-    Node* newNode = new Node(data);
+  
     if (isEmpty()) {
-        head = tail = newNode;
+        head = tail = new Node(data);
     }
     else {
-        newNode->prev = tail;
-        tail->next = newNode;
-        tail = newNode;
+
+        Node* current = this->head;
+
+        while (current->next != nullptr)
+        {
+            current = current->next;
+        }
+        current->next = new Node(data);
     }
+
     size++;
 }
 
 // 2. add element to the front
 void UnorderedList::push_front(int data) {
-    Node* newNode = new Node(data);
+
     if (isEmpty()) {
-        head = newNode;
-        tail = newNode;
+        head = tail = new Node(data, head);
     }
     else {
-        newNode->next = head;
-        head->prev = newNode;
-        head = newNode;
+        head =  new Node(data, head);
     }
     size++;
 
@@ -103,20 +108,8 @@ void UnorderedList::push_front(int data) {
 //3. delete last element
 void UnorderedList::pop_back() {
     if (!isEmpty()) {
-        if (get_size() == 1) {
-            delete head;
-            head = tail = NULL;
-            size--;
-        }
-        else {
-            Node* newNode = tail->prev;
-            delete tail;
-            tail = newNode;
-            tail->next = NULL;
-            size--;
-        }
+        remove(size - 1);
     }
-
     else {
         throw std::out_of_range("List is empty");
     }
@@ -125,19 +118,10 @@ void UnorderedList::pop_back() {
 // 4. delete front element
 void UnorderedList::pop_front() {
     if (!isEmpty()) {
-        if (get_size() == 1) {
-            delete head;
-            head = tail = NULL;
-            size--;
-        }
-
-        else {
-            Node* newNode = head->next;
-            delete head;
-            head = newNode;
-            head->prev = NULL;
-            size--;
-        }
+        Node* temp = head;
+        head = head->next;
+        delete temp;
+        size--;
     }
     else {
         throw std::out_of_range("List is empty");
@@ -147,18 +131,19 @@ void UnorderedList::pop_front() {
 //5. insert element
 void UnorderedList::insert(int index, int data) {
     if (index < get_size() && index >= 0) {
-        if (index == 0) push_front(data);
-        else if (index == get_size()) push_back(data);
+        if (index == 0)
+        {
+            push_front(data);
+        }
         else {
-            Node* previous = head;
-            int i = 0;
-            while (i < index - 1) {
-                previous = previous->next;
-                i++;
+            Node* prev = this->head;
+            for (int i = 0; i < index - 1; i++)
+            {
+                prev = prev->next;
             }
-
-            Node* newNode = new Node(data, previous, previous->next);
-            previous->next = newNode;
+            
+            Node* newNode = new Node(data, prev->next);
+            prev->next = newNode;
             size++;
         }
     }
@@ -181,28 +166,23 @@ int UnorderedList::at(int index) {
 //7. remove element by index
 void UnorderedList::remove(int index) {
     if (index < get_size() && index >= 0) {
-        Node* newNode = getNode(index);
-        if (get_size() == 1) {
-            delete newNode;
-            head = tail = NULL;
+        if (index == 0)
+        {
+            pop_front();
         }
-        else {
-            if (index == get_size() - 1) {
-                newNode->prev->next = NULL;
-                tail = getNode(index);
+        else
+        {
+            Node* prev = this->head;
+            for (int i = 0; i < index - 1; i++)
+            {
+                prev = prev->next;
             }
-            else if (index == 0) {
-                newNode->next->prev = NULL;
-                head = newNode;
-            }
-            else {
 
-                newNode->next->prev = newNode->prev;
-                newNode->prev->next = newNode->next;
-            }
-            delete newNode;
+            Node* toDelete = prev->next;
+            prev->next = toDelete->next;
+            delete toDelete;
+            size--;
         }
-        size--;
     }
     else {
         throw std::invalid_argument("Index is out of range");
@@ -246,7 +226,7 @@ bool UnorderedList::isEmpty() {
 std::ostream& operator<< (std::ostream& out, const UnorderedList& list) {
 
     UnorderedList::Node* print = list.head;
-    while (print != NULL) {
+    while (print != nullptr) {
         out << print->data << " ";
         print = print->next;
     }
